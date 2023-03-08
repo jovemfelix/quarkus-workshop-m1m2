@@ -1,30 +1,33 @@
-= What is Quarkus?
 :experimental:
 :imagesdir: images
+
+= xxx
+
+= O que é Quarkus??
 
 image::logo.png[quarkus-logo, 900]
 
 Quarkus é um framework Java nativo do Kubernetes projetado para GraalVM e OpenJDK HotSpot, criado a partir das melhores bibliotecas e padrões do Java. Possui um tempo de inicialização incrivelmente rápido, uso de memória de RSS extremamente baixo (não apenas tamanho do heap!), oferecendo escala quase instantânea e utilização de memória de alta densidade em plataformas de orquestração de contêineres, como o Kubernetes. O Quarkus usa uma técnica chamada https://quarkus.io/container-first[compile time boot^] e oferece um modelo de programação imperativo e reativo unificado, além de vários outros recursos de desenvolvedor, como Live Reload, para trazer verdadeira _alegria_ ao seu desenvolvimento.
 
-*Red Hat* offers the fully supported https://access.redhat.com/products/quarkus[Red Hat Build of Quarkus(RHBQ)^] with support and maintenance of Quarkus. In this workhop, you will use Quarkus to develop Kubernetes-native microservices and deploy them to OpenShift. Quarkus is one of the runtimes included in https://www.redhat.com/en/products/runtimes[Red Hat Runtimes^]. https://access.redhat.com/documentation/en-us/red_hat_build_of_quarkus[Learn more about RHBQ^].
+A *Red Hat* oferece o https://access.redhat.com/products/quarkus[Red Hat Build of Quarkus(RHBQ)^] totalmente suportado, com suporte e manutenção do Quarkus. Neste workshop, você usará o Quarkus para desenvolver microserviços nativos do Kubernetes e implantá-los no OpenShift. O Quarkus é um dos runtimes incluídos em https://www.redhat.com/en/products/runtimes[Red Hat Runtimes^]. https://access.redhat.com/documentation/en-us/red_hat_build_of_quarkus[Obtenha mais informações sobre o RHBQ^].
 
-Throughout this lab you'll discover how Quarkus can make your development of cloud native apps faster and more productive.
+Ao longo deste laboratório, você descobrirá como o Quarkus pode tornar o desenvolvimento de aplicativos nativos da nuvem mais rápido e produtivo.
 
-== First Step: Set Your Username!
+= Primeiro passo: Defina seu nome de usuário!
 
-Look in the box at the top of your screen. Is your username set already? If so it will look like this:
+Olhe na caixa no topo da sua tela. Seu nome de usuário já está definido? Se sim, ele parecerá assim:
 
 image::alreadyset.png[Set User ID above, 700]
 
-If your username is properly set, then you can move on. **If not, in the above box, enter the user ID you were assigned** like this:
+Se o nome do seu usuário estiver definido corretamente, você pode prosseguir. *Caso contrário, na caixa acima, digite o ID do usuário que foi atribuído a você* assim:
 
 image::setuser.png[Set User ID above, 700]
 
-This will customize the links and copy/paste code for this workshop. If you accidently type the wrong username, just click the green recycle icon to reset it.
+Isso irá personalizar os links e códigos de `copiar/colar` para este workshop. Se você digitar acidentalmente o nome de usuário errado, basta clicar no ícone de reciclagem verde para redefinir.
 
-== Click-to-Copy
+= Clique para Copiar
 
-You will see various code and command blocks throughout these exercises which can be copy/pasted directly by clicking anywhere on the block of text:
+Você verá vários blocos de `código` e `comando` ao longo destes exercícios que podem ser copiados/colados diretamente *clicando em qualquer lugar do bloco de texto*:
 
 [source,java,role="copypaste"]
 ----
@@ -36,39 +39,38 @@ public class CopyMeDirectly {
 }
 ----
 
-Simply click once and the whole block is copied to your clipboard, ready to be pasted with kbd:[CTRL+V] (or kbd:[Command+V] on Mac OS).
+Basta clicar uma vez e todo o bloco será copiado para a área de transferência, pronto para ser colado com kbd:[CTRL+V] (ou kbd:[Command+V] no Mac OS).
 
-There are also Linux shell commands that can also be copied and pasted into a Terminal in your Development Environment:
+Existem também comandos de shell Linux que podem ser copiados e colados em um Terminal no seu Ambiente de Desenvolvimento:
 
 [source,sh,role="copypaste"]
 ----
-echo "This is a bash shell command that you can copy/paste by clicking"
+echo "Este é um comando do shell que você pode copiar/colar clicando"
 ----
 
-## Access Your Development Environment
+= Acesse seu Ambiente de Desenvolvimento
 
-You will be using Red Hat CodeReady Workspaces, an online IDE based on https://www.eclipse.org/che/[CodeReady Workspaces^]. **Changes to files are auto-saved every few seconds**, so you don't need to explicitly save changes.
+Você estará usando o Red Hat CodeReady Workspaces, um ambiente de desenvolvimento integrado online baseado no https://www.eclipse.org/che/[CodeReady Workspaces^]. As *alterações nos arquivos são salvas automaticamente a cada poucos segundos*, portanto, você não precisa salvar explicitamente as alterações.
 
-To get started, {{ CHE_URL }}[access the CodeReady Workspaces instance^] and log in using the username and password you've been assigned:
+Para começar, {{CHE_URL}}[acesse a instância do CodeReady Workspaces^] e faça login usando o nome de usuário e a senha que lhe foram atribuídos:
 
-* *Username*: `{{ USER_ID }}`
-* *Password*: `{{ CHE_USER_PASSWORD }}`
+* *Usuário*: `{{ USER_ID }}`
+* *Senha*: `{{ CHE_USER_PASSWORD }}`
 
 image::che-login.png[login,800]
 
-Once you log in, you’ll be placed on your personal dashboard. Click on the name of
-the pre-created workspace on the left, as shown below (the name will be different depending on your assigned number).
+Depois de fazer o login, você será direcionado para o seu painel pessoal. Clique no nome do espaço de trabalho pré-criado à esquerda, como mostrado abaixo (o nome será diferente dependendo do número atribuído a você).
 
 image::crw-landing.png[cdw, 800]
 
-You can also click on the name of the workspace in the center, and then click on the green {{ USER_ID}}-namespace that says _Open_ on the top right hand side of the screen:
+Você também pode clicar no nome do espaço de trabalho no centro e, em seguida, clicar no namespace `{{ USER_ID}}-namespace` verde que diz _Open_ (o qual se encontra no canto inferior direito da tela):
 
 image::crw-landing-start.png[cdw, 800]
 
-After a minute or two, you’ll be placed in the workspace:
+Após um ou dois minutos, você será direcionado para o espaço de trabalho:
 
 image::che-workspace.png[cdw, 800]
 
-Users of Eclipse, IntelliJ IDEA or Visual Studio Code will see a familiar layout: a project/file browser on the left, a code editor on the right, and a terminal at the bottom. You'll use all of these during the course of this workshop, so keep this browser tab open throughout. **If things get weird, you can simply reload the browser tab to refresh the view.**
+Os usuários das IDEs (Eclipse, IntelliJ IDEA ou Visual Studio Code) verão uma interface familiar: um navegador de projetos/arquivos à esquerda, um editor de código à direita e um terminal na parte inferior. Você usará todos esses recursos durante o curso deste workshop, então mantenha esta guia do navegador aberta durante todo o processo. *Se as coisas ficarem estranhas, você pode simplesmente recarregar a guia do navegador para atualizar a visualização*.
 
-Ready? Let's go!
+Pronto? Vamos lá!
